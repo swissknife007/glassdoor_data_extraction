@@ -1,0 +1,505 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="css/prettify.css" />
+<link rel="stylesheet" type="text/css" href="css/freeformatter.css" />
+<link rel="stylesheet" type="text/css" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/cupertino/jquery-ui.css" />
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="js/1.12/freeformatter.js"></script>
+<meta name="language" content="en" />
+<meta name="robots" content="all" />
+<meta name="rating" content="general" />
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9" />
+<link rel="shortcut icon" href="gfx/favicon.ico" />
+<title>Free Online HTML Formatter - FreeFormatter.com</title>
+<meta name="title" content="Free Online HTML Formatter - FreeFormatter.com" />
+<meta name="description" content="This free online HTML formatter and validator lets you chose your indentation level and also lets you export to file" />
+<script type="text/javascript">
+	
+		$(document).ready(function() {	
+			
+			// Handle the focus and blur of the HTML url input
+			$('#inputUrl').focus(formatter.handleInputUrlFocus);
+			$('#inputUrl').blur(formatter.handleInputUrlBlur);			
+			
+			$('#inputString').keydown(formatter.handleIputStringKeydown);
+			$('#inputUrl').keydown(formatter.handleInputUrlKeydown);
+			
+			// Handle the select all button
+			$('#selectAll').click(formatter.selectOutput);
+
+			$('#copyToClipboard').zclip({
+				path: 'js/ZeroClipboard.swf',
+				copy: function(){ return $('#htmlOutput').text(); }
+			});
+			
+			formatter.initInputUrl();			
+			
+		});
+		
+		var formatter = {
+
+				// The default URL to display in the HTML URL control
+				defaultUrl: "http://www.example.com/myfile.html",
+
+				/**
+				* If someone is changing the content of the textarea, clear the url part
+				*/
+				handleIputStringKeydown: function() {
+					$('#inputUrl').val('');
+					formatter.initInputUrl();
+				},
+				
+				/**
+				* If someone changes the url, empty the text area
+				*/
+				handleInputUrlKeydown: function() {
+					$('#inputString').val('');
+				},
+				
+				/**
+				* Initialize the html url control
+				*/
+				initInputUrl: function() {
+								
+					if ($.string($('#inputUrl').val()).blank()
+							|| $('#inputUrl').val() == formatter.defaultUrl) {
+						$('#inputUrl').css('color', '#CCCCCC').val(formatter.defaultUrl);
+					} else {
+						$('#inputUrl').css('color', '#404040');
+					}			
+					
+				},
+				
+				/**
+				* Defaults the html url control to display a bogus example of a URL
+				*/
+				defaultInputUrl: function() {
+					$('#inputUrl').css('color', '#CCCCCC').val(formatter.defaultUrl);
+				},
+
+				/**
+				* Handles the focus even of the html url control.  Removes the default string if
+				* present and resets the color to black.
+				*/
+				handleInputUrlFocus: function() {
+					var value = $('#inputUrl').val();
+					if (value === formatter.defaultUrl) {
+						$('#inputUrl').css('color', '#404040').val('');
+					}
+				},
+
+				/**
+				* Handles the blur event of the html url control.  Sets the default string back in if the
+				* field is empty and sets back the color to a light gray
+				*/
+				handleInputUrlBlur: function() {
+					var value = $('#inputUrl').val();
+					if ($.string(value).blank()) {
+						formatter.defaultInputUrl();
+					}
+				},
+
+				/**
+				* Selects the output in the div
+				*/
+				selectOutput: function() {
+					
+					var text = $('#htmlOutput')[0];
+					if ($.browser.msie) {
+						var range = document.body.createTextRange();
+						range.moveToElementText(text);
+						range.select();
+					} else {
+						var selection = window.getSelection();
+						var range = document.createRange();
+						range.selectNodeContents(text);
+						selection.removeAllRanges();
+						selection.addRange(range);
+					}
+
+				},
+				
+				/**
+				* Handles a form submission
+				*/
+				submit: function() {
+						
+					var val = $('#forceNewWindow').val();
+					
+					if (val === 'true') {
+						$('#form').attr('target', '_blank');
+					} else {
+						$('#form').attr('target', '_self');
+					}
+					
+					$('#form').trigger('submit');
+					
+				}
+						
+			};		
+		
+	</script>
+</head>
+<body onload="prettyPrint();">
+<div class="topbar">
+<div class="topbar-inner">
+<div class="container-fluid">
+<a class="brand" href="http://www.freeformatter.com">FreeFormatter.com</a>
+<ul class="nav">
+<li><a href="https://www.freeformatter.com"><strong>HTTPS</strong></a></li>
+<li><a href="mailto:freeformatter@gmail.com">Contact</a></li>
+</ul>
+<div class="social" style="float:right;">
+<div class="fb-like" data-href="http://www.freeformatter.com" data-send="false" data-layout="button_count" data-width="50" data-show-faces="true" data-font="arial"></div>
+<!-- Place this tag where you want the +1 button to render -->
+<div style="float: left; padding: 8px 5px 5px;">
+<g:plusone></g:plusone>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="container-fluid">
+<div class="sidebar">
+<div class="well">
+<a href="/formatters.html"><h5>Formatters</h5>
+</a>
+<ul>
+<li id="menu-json-formatter"><a href="/json-formatter.html">JSON
+					Formatter</a>
+</li>
+<li id="menu-html-formatter"><a href="/html-formatter.html">HTML
+					Formatter</a>
+</li>
+<li id="menu-xml-formatter"><a href="/xml-formatter.html">XML
+					Formatter</a>
+</li>
+<li id="menu-sql-formatter"><a href="/sql-formatter.html">SQL
+					Formatter</a>
+</li>
+</ul>
+<a href="/validators.html"><h5>Validators</h5>
+</a>
+<ul>
+<li id="menu-json-validator"><a href="/json-validator.html">JSON
+					Validator</a>
+</li>
+<li id="menu-html-validator"><a href="/html-validator.html">HTML
+					Validator</a>
+</li>
+<li id="menu-xml-validator-xsd"><a href="/xml-validator-xsd.html">XML Validator - XSD</a>
+</li>
+<li id="menu-xsd-generator"><a href="/xsd-generator.html">XSD
+					Generator</a>
+</li>
+<li id="menu-xpath-tester"><a href="/xpath-tester.html">XPath
+					Tester</a>
+</li>
+<li id="menu-credit-card-generator-validator">
+<a href="/credit-card-number-generator-validator.html">Credit Card Number Generator &amp; Validator</a>
+</li>
+<li id="menu-regex-tester">
+<a href="/regex-tester.html">Regular Expression Tester</a>
+</li>
+</ul>
+<a href="/encoders.html"><h5>Encoders &amp; Decoders</h5>
+</a>
+<ul>
+<li id="menu-url-encoder"><a href="/url-encoder.html">Url
+					Encoder &amp; Decoder</a>
+</li>
+<li id="menu-base64-encoder"><a href="/base64-encoder.html">Base
+					64 Encoder &amp; Decoder</a>
+</li>
+<li id="menu-qr-code-generator">
+<a href="/qr-code-generator.html">QR Code Generator</a>
+</li>
+</ul>
+<a href="/minifiers.html"><h5>Code Minifiers</h5>
+</a>
+<ul>
+<li id="menu-javascript-minifier"><a href="/javascript-minifier.html">JavaScript Minifier</a>
+</li>
+<li id="menu-css-minifier"><a href="/css-minifier.html">CSS
+					Minifier</a>
+</li>
+</ul>
+<a href="/converters.html"><h5>Converters</h5>
+</a>
+<ul>
+<li id="menu-xsl-transformer"><a href="/xsl-transformer.html">XSLT
+					(XSL Transformer)</a>
+</li>
+<li id="menu-xml-to-json-converter"><a href="/xml-to-json-converter.html">XML to JSON Converter</a>
+</li>
+<li id="menu-json-to-xml-converter"><a href="/json-to-xml-converter.html">JSON to XML Converter</a>
+</li>
+<li id="menu-csv-to-xml-converter"><a href="/csv-to-xml-converter.html">CSV to XML Converter</a>
+</li>
+<li id="menu-epoch-to-date"><a href="/epoch-timestamp-to-date-converter.html">Epoch Timestamp
+					To Date</a>
+</li>
+</ul>
+<a href="/cryptography.html"><h5>Cryptography</h5>
+</a>
+<ul>
+<li id="menu-message-digester"><a href="/message-digest.html">Message
+					Digester</a>
+</li>
+<li id="menu-hmac-generator"><a href="/hmac-generator.html">HMAC
+					Generator</a>
+</li>
+</ul>
+<a href="/string-escaper.html"><h5>String Escaper &amp; Utilities</h5>
+</a>
+<ul>
+<li id="menu-string-utilities"><a href="/string-utilities.html">String Utilities</a>
+</li>
+<li id="menu-html-escape"><a href="/html-escape.html">HTML
+					Escape</a>
+</li>
+<li id="menu-xml-escape"><a href="/xml-escape.html">XML
+					Escape</a>
+</li>
+<li id="menu-java-dotnet-escape"><a href="/java-dotnet-escape.html">Java and .Net Escape</a>
+</li>
+<li id="menu-javascript-escape"><a href="/javascript-escape.html">JavaScript Escape</a>
+</li>
+<li id="menu-csv-escape"><a href="/csv-escape.html">CSV
+					Escape</a>
+</li>
+<li id="menu-sql-escape"><a href="/sql-escape.html">SQL
+					Escape</a>
+</li>
+</ul>
+<a href="/web-resources.html"><h5>Web Resources</h5>
+</a>
+<ul>
+<li id="menu-lorem-ipsum-generator"><a href="/lorem-ipsum-generator.html">Lorem Ipsum Generator</a>
+</li>
+<li id="menu-less-compiler"><a href="/less-compiler.html">LESS Compiler</a>
+</li>
+<li id="menu-mime-types-list"><a href="/mime-types-list.html">List
+					of MIME types</a>
+</li>
+<li id="menu-html-entities"><a href="/html-entities.html">HTML Entities</a>
+</li>
+<li id="menu-url-parser"><a href="/url-parser-query-string-splitter.html">Url Parser / Query String Splitter</a></li>
+<li id="menu-iso-country-list"><a href="/iso-country-list-html-select.html">ISO country list -
+					HTML select snippet</a>
+</li>
+<li id="menu-usa-state-list"><a href="/usa-state-list-html-select.html">USA state list - HTML
+					select snippet</a>
+</li>
+<li id="menu-canada-province-list"><a href="/canada-province-list-html-select.html">Canada province
+					list - HTML select snippet</a>
+</li>
+<li id="menu-mexico-state-list"><a href="/mexico-state-list-html-select.html">Mexico state
+					list - HTML select snippet</a>
+</li>
+<li id="menu-time-zone-list"><a href="/time-zone-list-html-select.html">Time zone list - HTML
+					select snippet</a>
+</li>
+</ul>
+</div>
+<div style="text-align: center;">
+<script type="text/javascript">
+		&lt;!--
+			google_ad_client = "ca-pub-2485708030241382";
+			/* FreeFormatter-Menu-Verdana */
+			google_ad_slot = "0909911567";
+			google_ad_width = 200;
+			google_ad_height = 200;
+		//--&gt;
+		</script>
+<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+</div>
+<script type="text/javascript">
+	$(document).ready(
+		function() {
+			var location = document.location.pathname;
+			if (location.indexOf("json-formatter.html") != -1) {
+				$('#menu-json-formatter').addClass('current');
+			} else if (location.indexOf("html-formatter.html") != -1) {
+				$('#menu-html-formatter').addClass('current');
+			} else if (location.indexOf("xml-formatter.html") != -1) {
+				$('#menu-xml-formatter').addClass('current');
+			} else if (location.indexOf("sql-formatter.html") != -1) {
+				$('#menu-sql-formatter').addClass('current');
+			} else if (location.indexOf("json-validator.html") != -1) {
+				$('#menu-json-validator').addClass('current');
+			} else if (location.indexOf("html-validator.html") != -1) {
+				$('#menu-html-validator').addClass('current');
+			} else if (location.indexOf("url-encoder.html") != -1) {
+				$('#menu-url-encoder').addClass('current');
+			} else if (location.indexOf("base64-encoder.html") != -1) {
+				$('#menu-base64-encoder').addClass('current');
+			} else if (location.indexOf("javascript-minifier.html") != -1) {
+				$('#menu-javascript-minifier').addClass('current');
+			} else if (location.indexOf("css-minifier.html") != -1) {
+				$('#menu-css-minifier').addClass('current');
+			} else if (location.indexOf("html-escape.html") != -1) {
+				$('#menu-html-escape').addClass('current');
+			} else if (location.indexOf("xml-escape.html") != -1) {
+				$('#menu-xml-escape').addClass('current');
+			} else if (location.indexOf("java-dotnet-escape.html") != -1) {
+				$('#menu-java-dotnet-escape').addClass('current');
+			} else if (location.indexOf("javascript-escape.html") != -1) {
+				$('#menu-javascript-escape').addClass('current');
+			} else if (location.indexOf("csv-escape.html") != -1) {
+				$('#menu-csv-escape').addClass('current');
+			} else if (location.indexOf("sql-escape.html") != -1) {
+				$('#menu-sql-escape').addClass('current');
+			} else if (location.indexOf("mime-types-list.html") != -1) {
+				$('#menu-mime-types-list').addClass('current');
+			} else if (location.indexOf("xml-validator-xsd.html") != -1) {
+				$('#menu-xml-validator-xsd').addClass('current');
+			} else if (location.indexOf("xsd-generator.html") != -1) {
+				$('#menu-xsd-generator').addClass('current');
+			} else if (location.indexOf("epoch-timestamp-to-date-converter.html") != -1) {
+				$('#menu-epoch-to-date').addClass('current');
+			} else if (location.indexOf("iso-country-list-html-select.html") != -1) {
+				$('#menu-iso-country-list').addClass('current');
+			} else if (location.indexOf("usa-state-list-html-select.html") != -1) {
+				$('#menu-usa-state-list').addClass('current');
+			} else if (location.indexOf("canada-province-list-html-select.html") != -1) {
+				$('#menu-canada-province-list').addClass('current');
+			} else if (location.indexOf("mexico-state-list-html-select.html") != -1) {
+				$('#menu-mexico-state-list').addClass('current');				
+			} else if (location.indexOf("time-zone-list-html-select.html") != -1) {
+				$('#menu-time-zone-list').addClass('current');
+			} else if (location.indexOf("xpath-tester.html") != -1) {
+				$('#menu-xpath-tester').addClass('current');
+			} else if (location.indexOf("xsl-transformer.html") != -1) {
+				$('#menu-xsl-transformer').addClass('current');
+			} else if (location.indexOf("xml-to-json-converter.html") != -1) {
+				$('#menu-xml-to-json-converter').addClass('current');
+			} else if (location.indexOf("json-to-xml-converter.html") != -1) {
+				$('#menu-json-to-xml-converter').addClass('current');
+			} else if (location.indexOf("hmac-generator.html") != -1) {
+				$('#menu-hmac-generator').addClass('current');
+			} else if (location.indexOf("less-compiler.html") != -1) {
+				$('#menu-less-compiler').addClass('current');
+			} else if (location.indexOf("credit-card-number-generator-validator.html") != -1) {
+				$('#menu-credit-card-generator-validator').addClass('current');
+			} else if (location.indexOf("qr-code-generator.html") != -1) {
+				$('#menu-qr-code-generator').addClass('current');
+			} else if (location.indexOf("html-entities.html") != -1) {
+				$('#menu-html-entities').addClass('current');
+			} else if (location.indexOf("csv-to-xml-converter.html") != -1) {
+				$('#menu-csv-to-xml-converter').addClass('current');
+			} else if (location.indexOf("string-utilities.html") != -1) {
+				$('#menu-string-utilities').addClass('current');
+			} else if (location.indexOf("regex-tester.html") != -1) {
+				$('#menu-regex-tester').addClass('current');
+			} else if (location.indexOf("url-parser-query-string-splitter.html") != -1) {
+				$('#menu-url-parser').addClass('current');
+			} else if (location.indexOf("lorem-ipsum-generator.html") != -1) {
+				$('#menu-lorem-ipsum-generator').addClass('current');
+			}
+			
+		}
+	);
+</script>
+<div class="content">
+<div class="content-inner">
+<h1>HTML Formatter</h1>
+<p>
+					Formats a HTML string/file with your desired indentation level. The formatting rules are not configurable but I think it provides the user with the best possible output.
+				</p>
+<p>
+					Note that the formatter will keep spaces and tabs between content tags such as divs and spans as it's considered to be valid content.
+				</p>
+<p>
+<strong>*Files bigger than 1 meg will be formatted to a new window.</strong>
+</p>
+<div class="form-wrapper">
+<form id="form" enctype="multipart/form-data" method="post" action="/html-formatter.html">
+<input type="hidden" name="action" id="action" />
+<div class="title first"><span class="option">Option 1:</span> <span class="option-text">Copy-paste your HTML document here</span></div>
+<textarea rows="" cols="" id="inputString" name="inputString">&lt;html&gt;
+&lt;/html&gt;</textarea>
+<div class="title"><span class="option">Option 2:</span> <span class="option-text">Or type in the URL to your HTML file</span></div>
+<input type="text" id="inputUrl" name="inputUrl" value="http://www.example.com/myfile.html" />
+<div class="title"><span class="option">Indentation level:</span></div>
+<select id="indent" name="indent" tabindex="-1">
+<option value="2spaces">2 spaces per indent level</option>
+<option selected="selected" value="3spaces">3 spaces per indent level</option>
+<option value="4spaces">4 spaces per indent level</option>
+<option value="tabs">Tab delimited</option>
+</select>
+<div class="title"><span class="option">Force output to new window:</span></div>
+<select id="forceNewWindow" name="forceNewWindow">
+<option selected="selected" value="false">No</option>
+<option value="true">Yes</option>
+</select>
+<div class="buttons">
+<button class="btn primary" id="formatButton" title="Format the HTML into a tree" onclick="formatter.submit();return false;">FORMAT HTML</button>
+</div>
+</form>
+</div>
+<div id="ad-output" class="ad-wrapper">
+<script type="text/javascript">&lt;!--
+					google_ad_client = "ca-pub-2485708030241382";
+					/* FreeFormatter-Banner-Verdana */
+					google_ad_slot = "4724169137";
+					google_ad_width = 468;
+					google_ad_height = 60;
+					//--&gt;
+					</script>
+<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<div id="output">
+<h3>Formatted HTML:</h3>
+<div id="htmlOutputWrapper">
+<pre id="htmlOutput" class="html prettyprint">&lt;html&gt;&lt;/html&gt;
+</pre>
+</div>
+<div class="buttons" style="margin-top:15px;">
+<button class="btn primary" id="copyToClipboard" onclick="return false;" title="Copies the formatted HTML output to the clipboard"><span>COPY TO CLIPBOARD</span></button>
+<button class="btn primary" id="selectAll" onclick="return false;" title="Selects all of the formatted HTML output"><span>SELECT ALL</span></button>
+</div>
+</div>
+</div>
+<footer>
+</footer><p>&copy; FreeFormatter.com - Brought to you by MrForms. NEQ: 2269075125</p>
+
+</div>
+</div>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-24060392-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<div id="fb-root"></div>
+<script>
+	(
+		function() {
+    		var e = document.createElement('script'); e.async = true;
+    		e.setAttribute('defer', 'defer');
+    		e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js#xfbml=1';    		
+    		document.getElementById('fb-root').appendChild(e);
+ 		}()
+ 	);
+</script>
+<script type="text/javascript">
+	$(document).ready(function() {		
+		$('body').append('&lt;scri' + 'pt type="text/javascript" src="http://apis.google.com/js/plusone.js" defer&gt;&lt;/scr' + 'ipt&gt;');		
+	});	
+</script>
+</body>
+</html>
